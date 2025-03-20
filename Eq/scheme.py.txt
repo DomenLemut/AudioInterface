@@ -1,0 +1,19 @@
+import schemdraw
+import schemdraw.elements as elm
+
+d = schemdraw.Drawing()
+
+# Transformer output
+xfmr = d.add(elm.Transformer(label='Transformer', l=2, loops=2))
+d.add(elm.Ground().at(xfmr.p2))
+
+# Lead network (High-pass)
+C1 = d.add(elm.Capacitor(label='15.9nF').right().at(xfmr.p1))
+R1 = d.add(elm.Resistor(label='10kΩ').down().at(C1.end))
+d.add(elm.Line().right().at(R1.end).length(1))  # Output node
+
+d.add(elm.Ground().at(R1.end))
+
+d.add(elm.SourceSin().left().at(xfmr.p1))  # Input signal
+
+d.draw()
